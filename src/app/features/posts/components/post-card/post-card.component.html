@@ -1,0 +1,47 @@
+<div class="post-card" (click)="onCardClick()">
+  <!-- Header with user info -->
+  <div class="post-header">
+    <div class="user-info">
+      <img
+        [src]="post.avatar"
+        [alt]="post.user.name + ' avatar'"
+        class="user-avatar"
+        loading="lazy">
+      <div class="user-details">
+        <h3 class="user-name">{{ post.user.name }}</h3>
+        <p class="user-email">{{ post.user.email }}</p>
+        <p class="user-company">{{ post.user.company.name }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post content -->
+  <div class="post-content">
+    <h2 class="post-title">{{ post.title }}</h2>
+    <p class="post-body">{{ post.body | truncate:120 }}</p>
+    @if (post.body.length > 120) {
+      <button class="read-more-btn" type="button">
+        <span>Read more</span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m9 18 6-6-6-6"/>
+        </svg>
+      </button>
+    }
+  </div>
+
+  <!-- Post image (if available) -->
+  @if (post.hasImage && post.postImage) {
+    <div class="post-image-container">
+      <img
+        [src]="post.postImage"
+        [alt]="'Image for post: ' + post.title"
+        class="post-image"
+        loading="lazy">
+    </div>
+  }
+
+  <!-- Footer -->
+  <div class="post-footer">
+    <span class="user-location">📍 {{ post.user.address.city }}, {{ post.user.address.street }}</span>
+  </div>
+</div>

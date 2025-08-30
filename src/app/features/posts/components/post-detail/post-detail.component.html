@@ -1,0 +1,110 @@
+<div class="post-detail">
+  <div class="post-detail__header">
+    <div class="user-info">
+      <img
+        [src]="post.avatar"
+        [alt]="post.user.name + ' avatar'"
+        class="user-info__avatar"
+        loading="lazy">
+      <div class="user-info__details">
+        <h3 class="user-info__name">{{ post.user.name }}</h3>
+        <p class="user-info__username">{{ '@' }}{{ post.user.username }}</p>
+        <p class="user-info__email">{{ post.user.email }}</p>
+        @if (post.user.phone) {
+          <p class="user-info__phone">📞 {{ post.user.phone }}</p>
+        }
+        @if (post.user.website) {
+          <p class="user-info__website">🌐 {{ post.user.website }}</p>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="post-detail__content">
+    <h1 class="post-title">{{ post.title }}</h1>
+
+    @if (post.hasImage && post.postImage) {
+      <div class="post-image-container">
+        <img
+          [src]="post.postImage"
+          [alt]="'Image for: ' + post.title"
+          class="post-image"
+          loading="lazy">
+      </div>
+    }
+
+    <div class="post-body">
+      <p>{{ post.body }}</p>
+
+      <!-- Reading stats -->
+      <div class="reading-stats">
+        <span class="stat-item">📊 {{ post.body.split(' ').length }} words</span>
+        <span class="stat-item">⏱️ {{ getReadingTime(post.body) }} min read</span>
+        <span class="stat-item">💬 {{ postWithComments()?.comments?.length || 0 }} comments</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="post-detail__meta">
+    <div class="meta-item">
+      <span class="meta-label">Author:</span>
+      <span class="meta-value">{{ post.user.name }}</span>
+    </div>
+    @if (post.user.company.name) {
+      <div class="meta-item">
+        <span class="meta-label">Company:</span>
+        <span class="meta-value">{{ post.user.company.name }}</span>
+      </div>
+      @if (post.user.company.catchPhrase) {
+        <div class="meta-item">
+          <span class="meta-label">Motto:</span>
+          <span class="meta-value">"{{ post.user.company.catchPhrase }}"</span>
+        </div>
+      }
+    }
+    @if (post.user.address.city) {
+      <div class="meta-item">
+        <span class="meta-label">Location:</span>
+        <span class="meta-value">{{ post.user.address.street }}, {{ post.user.address.city }}</span>
+      </div>
+    }
+  </div>
+
+  <!-- Comments Section -->
+  <div class="comments-section">
+    <h3 class="comments-title">Comments</h3>
+
+    @if (loadingComments()) {
+      <div class="comments-loading">
+        <div class="loading-spinner"></div>
+        <p>Loading comments...</p>
+      </div>
+    } @else if (postWithComments()?.comments) {
+      <div class="comments-list">
+        @for (comment of postWithComments()!.comments; track comment.id) {
+          <div class="comment-item">
+            <div class="comment-header">
+              <div class="comment-author-info">
+                <div class="comment-avatar">
+                  {{ getInitials(comment.name) }}
+                </div>
+                <div class="comment-author-details">
+                  <h4 class="comment-author">{{ comment.name }}</h4>
+                  <span class="comment-email">{{ comment.email }}</span>
+                </div>
+              </div>
+              <div class="comment-meta">
+                <span class="comment-date">{{ getRandomDate() }}</span>
+              </div>
+            </div>
+            <p class="comment-body">{{ comment.body }}</p>
+          </div>
+        } @empty {
+          <div class="no-comments">
+            <p>No comments yet. Be the first to share your thoughts!</p>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
