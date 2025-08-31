@@ -3,10 +3,11 @@
   <div class="post-header">
     <div class="user-info">
       <img
-        [src]="post.avatar"
-        [alt]="post.user.name + ' avatar'"
-        class="user-avatar"
-        loading="lazy">
+    [src]="post.avatar"
+    [alt]="post.user.name + ' avatar'"
+    class="user-avatar"
+    loading="lazy"
+    (error)="onAvatarError($event)">
       <div class="user-details">
         <h3 class="user-name">{{ post.user.name }}</h3>
         <p class="user-email">{{ post.user.email }}</p>
@@ -49,11 +50,12 @@
   <!-- Post image if available -->
   @if (post.postImage) {
     <div class="post-image-container">
-      <img
-        [src]="post.postImage"
-        [alt]="'Image for ' + post.title"
-        class="post-image"
-        loading="lazy">
+        <img
+          [src]="post.postImage"
+          [alt]="'Image for ' + post.title"
+          class="post-image"
+          loading="lazy"
+          (error)="onPostImageError($event)">
     </div>
   }
 

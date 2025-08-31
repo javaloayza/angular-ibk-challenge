@@ -79,7 +79,7 @@ export class PostFormComponent implements OnInit {
       Validators.maxLength(1000),
       this.noProhibitedWords
     ]],
-    userId: [null, [Validators.required, Validators.min(1), Validators.max(10)]]
+    userId: ['', [Validators.required, Validators.min(1), Validators.max(10)]]
   });
 
   ngOnInit() {
