@@ -4,7 +4,7 @@ Una aplicación Angular moderna construida con las últimas características de 
 
 ## 🎥 Demo en Funcionamiento
 
-![Demo de la Aplicación](https://res.cloudinary.com/dek59rwek/image/upload/v1756673679/Animation_rfnsu3.gif)
+![Demo de la Aplicación](https://github.com/user-attachments/assets/084a9ff2-3b2e-4146-a415-b83f7738038f)
 
 ## 🚀 Instrucciones para Ejecutar el Proyecto
 
@@ -36,7 +36,7 @@ ng serve
 
 - **Angular 18**: Componentes standalone y Signals para mejor rendimiento
 - **RxJS**: Manejo reactivo de APIs y búsqueda con debounce
-- **SCSS**: Diseño responsive mobile-first
+- **SCSS**: Diseño responsive mobile-first sin librerías UI externas según indicaciones del challenge
 - **TypeScript**: Tipado estricto para mejor mantenibilidad
 
 ### Estructura del Proyecto
@@ -92,6 +92,8 @@ src/app/
 - **Picsum**: Imágenes aleatorias para posts
 
 **Resultado**: Posts enriquecidos con datos visuales y metadata completa.
+
+💡 *Nota técnica: Configuraciones hardcodeadas (URLs APIs, SVGs, paginación) priorizando desarrollo ágil. En entornos productivos se implementarían como configurables.*
 
 
 ## ✅ Cumplimiento de Requisitos del Challenge
