@@ -1,27 +1,75 @@
 .app-container {
   min-height: 100vh;
-  background: #f8fafc;
+  background: var(--background-color);
 }
 
 .app-header {
-  text-align: center;
-  padding: 3rem 1rem 1rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 2rem 1rem 1rem;
+  background: var(--primary-gradient);
   color: white;
   margin-bottom: 0;
 
-  h1 {
-    margin: 0 0 0.5rem;
-    font-size: 2.5rem;
-    font-weight: 700;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
-  p {
-    margin: 0;
-    font-size: 1.125rem;
-    opacity: 0.9;
-    font-weight: 300;
+  .header-text {
+    text-align: left;
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    p {
+      margin: 0;
+      font-size: 1.125rem;
+      opacity: 0.9;
+      font-weight: 300;
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .btn-dev {
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    &.btn-danger {
+      border-color: rgba(231, 76, 60, 0.6);
+      background: rgba(231, 76, 60, 0.2);
+
+      &:hover {
+        background: rgba(231, 76, 60, 0.35);
+        border-color: rgba(231, 76, 60, 0.8);
+        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.2);
+      }
+    }
   }
 }
 
@@ -37,14 +85,28 @@ main {
 // Responsive
 @media (max-width: 768px) {
   .app-header {
-    padding: 2rem 1rem 1rem;
+    padding: 1.5rem 1rem 1rem;
 
-    h1 {
-      font-size: 2rem;
+    .header-content {
+      flex-direction: column;
+      gap: 1rem;
+      text-align: center;
     }
 
-    p {
-      font-size: 1rem;
+    .header-text {
+      text-align: center;
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+    }
+
+    .header-actions {
+      justify-content: center;
     }
   }
 }

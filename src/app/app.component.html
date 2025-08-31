@@ -1,12 +1,28 @@
 <div class="app-container">
   <header class="app-header">
-    <h1>Angular Interbank Challenge</h1>
-    <p>Social Posts Platform with Modern Angular 18</p>
+    <div class="header-content">
+      <div class="header-text">
+        <h1>Angular Interbank Challenge</h1>
+        <p>Social Posts Platform with Modern Angular 18</p>
+      </div>
+      <div class="header-actions">
+        <button
+          class="btn-dev"
+          (click)="showDataInfo()"
+          title="Ver información de datos">
+          📊 Datos
+        </button>
+        <button
+          class="btn-dev btn-danger"
+          (click)="clearLocalData()"
+          title="Limpiar datos del localStorage">
+          🗑️ Reset
+        </button>
+      </div>
+    </div>
   </header>
-  
+
   <main>
-    <app-post-list></app-post-list>
+    <router-outlet />
   </main>
 </div>
-
-<router-outlet />

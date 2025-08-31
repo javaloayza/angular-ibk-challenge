@@ -6,23 +6,23 @@
         <path d="m21 21-4.35-4.35"></path>
       </svg>
     </div>
-    
-    <input 
+
+    <input
       #searchInput
       type="text"
       class="search-input"
-      placeholder="Search posts, users, or content..."
+      placeholder="Buscar posts, usuarios o contenido..."
       [value]="searchTerm"
       (input)="onSearchInput(searchInput.value)"
       autocomplete="off"
       spellcheck="false">
-    
+
     @if (searchTerm) {
-      <button 
+      <button
         class="clear-button"
         (click)="clearSearch()"
         type="button"
-        aria-label="Clear search">
+        aria-label="Limpiar búsqueda">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -30,10 +30,10 @@
       </button>
     }
   </div>
-  
+
   @if (searchTerm) {
     <div class="search-hint">
-      <span>Searching for: <strong>"{{ searchTerm }}"</strong></span>
+      <span>Buscando: <strong>"{{ searchTerm }}"</strong></span>
     </div>
   }
 </div>

@@ -1,7 +1,7 @@
 .search-box-container {
   max-width: 500px;
   margin: 0 auto 2rem;
-  
+
   .search-input-wrapper {
     position: relative;
     display: flex;
@@ -13,8 +13,8 @@
     overflow: hidden;
 
     &:focus-within {
-      border-color: #3b82f6;
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(39, 155, 87, 0.1);
     }
 
     &:hover {
@@ -39,7 +39,7 @@
     font-size: 1rem;
     color: #374151;
     background: transparent;
-    
+
     &::placeholder {
       color: #9ca3af;
     }
@@ -66,8 +66,7 @@
 
     &:focus {
       outline: none;
-      ring: 2px solid #3b82f6;
-      ring-offset: 1px;
+      box-shadow: 0 0 0 2px var(--primary-color);
     }
   }
 
@@ -78,7 +77,7 @@
     color: #6b7280;
 
     strong {
-      color: #3b82f6;
+      color: var(--primary-color);
       font-weight: 600;
     }
   }
@@ -88,25 +87,25 @@
 @media (max-width: 768px) {
   .search-box-container {
     margin: 0 1rem 2rem;
-    
+
     .search-input-wrapper {
       border-radius: 8px;
     }
-    
+
     .search-input {
       font-size: 0.875rem;
       padding: 0.875rem 0.5rem;
     }
-    
+
     .search-icon {
       padding-left: 0.75rem;
-      
+
       svg {
         width: 18px;
         height: 18px;
       }
     }
-    
+
     .clear-button {
       svg {
         width: 14px;
@@ -119,15 +118,15 @@
 @media (max-width: 480px) {
   .search-box-container {
     margin: 0 0.5rem 1.5rem;
-    
+
     .search-input {
       font-size: 0.875rem;
     }
-    
+
     .search-input::placeholder {
       font-size: 0.8rem;
     }
-    
+
     .search-hint {
       font-size: 0.75rem;
       padding: 0 0.5rem;
@@ -138,8 +137,8 @@
 // Loading state (para futuro)
 .search-input-wrapper.loading {
   .search-icon {
-    color: #3b82f6;
-    
+    color: var(--primary-color);
+
     svg {
       animation: spin 1s linear infinite;
     }

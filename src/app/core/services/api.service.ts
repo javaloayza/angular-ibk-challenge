@@ -14,7 +14,7 @@ export interface ApiConfig {
 })
 export class ApiService {
   private readonly http = inject(HttpClient);
-  
+
   private readonly config: ApiConfig = {
     baseUrl: 'https://jsonplaceholder.typicode.com',
     timeout: 10000,
@@ -39,17 +39,6 @@ export class ApiService {
   }
 
   /**
-   * POST request
-   */
-  post<T>(endpoint: string, data: any, options?: { headers?: HttpHeaders }): Observable<T> {
-    return this.http.post<T>(`${this.config.baseUrl}${endpoint}`, data, {
-      headers: options?.headers || this.defaultHeaders
-    }).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  /**
    * PUT request
    */
   put<T>(endpoint: string, data: any, options?: { headers?: HttpHeaders }): Observable<T> {
@@ -61,33 +50,11 @@ export class ApiService {
   }
 
   /**
-   * DELETE request
-   */
-  delete<T>(endpoint: string, options?: { headers?: HttpHeaders }): Observable<T> {
-    return this.http.delete<T>(`${this.config.baseUrl}${endpoint}`, {
-      headers: options?.headers || this.defaultHeaders
-    }).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  /**
-   * PATCH request
-   */
-  patch<T>(endpoint: string, data: any, options?: { headers?: HttpHeaders }): Observable<T> {
-    return this.http.patch<T>(`${this.config.baseUrl}${endpoint}`, data, {
-      headers: options?.headers || this.defaultHeaders
-    }).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  /**
    * Centralized error handling
    */
   private handleError(error: HttpErrorResponse): Observable<never> {
     let errorMessage = 'An unknown error occurred';
-    
+
     if (error.error instanceof ErrorEvent) {
       // Client-side error
       errorMessage = `Client Error: ${error.error.message}`;
@@ -116,19 +83,5 @@ export class ApiService {
 
     console.error('API Error:', error);
     return throwError(() => new Error(errorMessage));
-  }
-
-  /**
-   * Update base URL (useful for different environments)
-   */
-  setBaseUrl(url: string): void {
-    this.config.baseUrl = url;
-  }
-
-  /**
-   * Get current base URL
-   */
-  getBaseUrl(): string {
-    return this.config.baseUrl;
   }
 }

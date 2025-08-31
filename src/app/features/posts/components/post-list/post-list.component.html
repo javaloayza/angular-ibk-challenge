@@ -3,17 +3,17 @@
   @if (loading()) {
     <div class="loading-container">
       <div class="loading-spinner"></div>
-      <p class="loading-text">Loading posts...</p>
+      <p class="loading-text">Cargando posts...</p>
     </div>
   }
 
   <!-- Error State -->
   @else if (error()) {
     <div class="error-container">
-      <h3 class="error-title">Oops! Something went wrong</h3>
+      <h3 class="error-title">¡Ups! Algo salió mal</h3>
       <p class="error-message">{{ error() }}</p>
       <button class="retry-button" (click)="onRetry()">
-        Try Again
+        Intentar de nuevo
       </button>
     </div>
   }
@@ -21,14 +21,36 @@
   <!-- Posts List -->
   @else {
     <div class="posts-content">
+      <!-- Header with Create Button -->
+      <div class="content-header">
+        <h2 class="page-title">Posts</h2>
+        <button class="btn-primary" (click)="onCreatePost()">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+          </svg>
+          Crear Post
+        </button>
+      </div>
+
+      <!-- Welcome Message -->
+      <div class="welcome-message">
+        <div class="welcome-content">
+          <h3>¡Bienvenido a la plataforma de Posts!</h3>
+          <p>
+            <strong>Crea tu propio post</strong> y podrás editarlo y eliminarlo cuando quieras.
+            En los posts que crees, los íconos de editar y eliminar estarán activos para que puedas gestionarlos fácilmente.
+          </p>
+        </div>
+      </div>
+
       <!-- Search Box -->
       <app-search-box (searchChange)="onSearchChange($event)"></app-search-box>
 
       <!-- Pagination Info -->
       <div class="pagination-info">
         <p>
-          Showing {{ paginationInfo().startItem }} to {{ paginationInfo().endItem }}
-          of {{ paginationInfo().totalItems }} posts
+          Mostrando {{ paginationInfo().startItem }} a {{ paginationInfo().endItem }}
+          de {{ paginationInfo().totalItems }} posts
         </p>
       </div>
 
@@ -37,12 +59,14 @@
         @for (post of posts(); track trackByPostId($index, post)) {
           <app-post-card
             [post]="post"
-            (postClick)="onPostClick($event)">
+            (postClick)="onPostClick($event)"
+            (editClick)="onEditClick($event)"
+            (deleteClick)="onDeleteClick($event)">
           </app-post-card>
         } @empty {
           <div class="empty-state">
-            <h3>No posts found</h3>
-            <p>Try adjusting your search or check back later.</p>
+            <h3>No se encontraron posts</h3>
+            <p>Intenta ajustar tu búsqueda o revisa más tarde.</p>
           </div>
         }
       </div>
@@ -57,7 +81,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="m15 18-6-6 6-6"/>
             </svg>
-            <span class="sr-only">Previous</span>
+            <span class="sr-only">Anterior</span>
           </button>
 
           <div class="page-numbers">
@@ -78,21 +102,80 @@
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="m9 18 6-6-6-6"/>
             </svg>
-            <span class="sr-only">Next</span>
+            <span class="sr-only">Siguiente</span>
           </button>
         </div>
       }
     </div>
   }
 
-  <!-- Post Detail Modal -->
-  @if (selectedPost()) {
+  <!-- Post Preview Modal -->
+  @if (selectedPost() && isPreviewModalOpen()) {
     <app-modal
-      [isOpen]="isModalOpen()"
+      [isOpen]="isPreviewModalOpen()"
       [title]="selectedPost()!.title"
       size="large"
-      (closeModal)="onCloseModal()">
-      <app-post-detail [post]="selectedPost()!"></app-post-detail>
+      (closeModal)="onClosePreviewModal()">
+      <div class="modal-content">
+        <app-post-detail [post]="selectedPost()!"></app-post-detail>
+        <div class="modal-actions">
+          <button class="btn-secondary" (click)="onClosePreviewModal()">
+            Cerrar
+          </button>
+          <button class="btn-primary" (click)="onViewFullPost()">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/>
+              <path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/>
+            </svg>
+            Ver Completo
+          </button>
+        </div>
+      </div>
+    </app-modal>
+  }
+
+  <!-- Delete Confirmation Modal -->
+  @if (selectedPost() && isDeleteModalOpen()) {
+    <app-modal
+      [isOpen]="isDeleteModalOpen()"
+      [title]="'Confirmar eliminación'"
+      size="small"
+      (closeModal)="onCancelDelete()">
+      <div class="delete-modal-content">
+        <div class="warning-icon">
+          <svg width="48" height="48" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+        </div>
+        <h3>¿Estás seguro?</h3>
+        <p>
+          Esta acción eliminará permanentemente el post
+          <strong>"{{ selectedPost()!.title }}"</strong>.
+          No se puede deshacer.
+        </p>
+        <div class="modal-actions">
+          <button
+            class="btn-secondary"
+            (click)="onCancelDelete()"
+            [disabled]="isDeleting()">
+            Cancelar
+          </button>
+          <button
+            class="btn-danger"
+            (click)="onConfirmDelete()"
+            [disabled]="isDeleting()">
+            @if (isDeleting()) {
+              <div class="spinner-small"></div>
+              Eliminando...
+            } @else {
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84L14.962 3.5H15.5a.5.5 0 0 0 0-1h-1.004a.58.58 0 0 0-.01 0H11Z"/>
+              </svg>
+              Eliminar
+            }
+          </button>
+        </div>
+      </div>
     </app-modal>
   }
 </div>
